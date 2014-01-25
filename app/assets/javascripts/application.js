@@ -13,5 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require vendor/knockout-3.0.0
+//= require vendor/coffee-script
+//= require vendor/ect.min
 //= require turbolinks
 //= require_tree .

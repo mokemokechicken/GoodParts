@@ -17,4 +17,7 @@
 //= require vendor/coffee-script
 //= require vendor/ect.min
 //= require turbolinks
+//= require good_parts/good_parts
+//= require good_parts/generators/generator_base
+//= require good_parts/param_controllers/param_controller_base
 //= require_tree .

@@ -10,10 +10,13 @@ GoodParts.Generator.SampleGenerator = ->
         {key: 'name', value: '', placeholder: 'ClassName'}
         {key: 'age' , value: '', placeholder: 'YourAge'}
       ]
+    params.record = GoodParts.ParamController.RecordParamController
+      name: 'Record'
+      columnList: ['name', 'type', 'length']
 
   self.requiredParams = ->
     createParam()
-    [params.map]
+    [params.map, params.record]
 
   self.generate = ->
     code1 = GoodParts.CodeRenderer.render('sample/sample_rb.ect', params.map.getParams())

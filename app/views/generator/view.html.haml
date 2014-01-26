@@ -3,8 +3,8 @@
 
   %div(data-bind="visible: isGeneratorFound")
     %div#canvas
-    %div
-      %button#submit OK
+    .global-control
+      %button.btn.btn-primary#submit Generate!
 
   .result(data-bind="with: result")
     %div#output(data-bind="foreach: files")

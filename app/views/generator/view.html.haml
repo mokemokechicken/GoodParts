@@ -1,0 +1,22 @@
+%div#main
+  %div(data-bind="text: message")
+
+  %div(data-bind="visible: isGeneratorFound")
+    %div#canvas
+    %div
+      %button#submit OK
+
+  .result(data-bind="with: result")
+    %div#output(data-bind="foreach: files")
+      %span.result-filename(data-bind="text: name")
+      %a(data-bind="attr: {href: $root.downloadURL($data), download: name}" target="_blank") download(Chrome以外では右クリックで名前を付けて保存してください)
+      %pre(data-bind='text: content, attr: {class: highlight_class(), id: name}' contenteditable="true" )
+
+:coffee
+  $ ->
+    GoodParts.ViewController.GenerateViewController
+      main: 'main'
+      canvas: 'canvas'
+      submit: 'submit'
+      output: 'output'
+    .start()

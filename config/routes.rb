@@ -4,7 +4,8 @@ GoodParts2::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'sample#index'
+  root 'generator#index'
+  get 'generator' => 'generator#view'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

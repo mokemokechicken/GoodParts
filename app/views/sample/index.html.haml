@@ -1,9 +1,12 @@
 %h1 Sample#index
 
 %div#main
-  %div#canvas
-  %div
-    %button#submit OK
+  %div(data-bind="text: message")
+
+  %div(data-bind="visible: isGeneratorFound")
+    %div#canvas
+    %div
+      %button#submit OK
 
   %div(data-bind="with: result")
     %div#output(data-bind="foreach: files")
@@ -12,7 +15,6 @@
 
 :coffee
   $ ->
-
     GoodParts.ViewController.GenerateViewController
       main: 'main'
       canvas: 'canvas'

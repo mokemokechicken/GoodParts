@@ -6,6 +6,7 @@
     .global-control
       %button.btn.btn-primary(data-bind="click: onGenerate") Generate!
       %button.btn(data-bind="click: onSerialize") Save
+      %button.btn(data-bind="click: onDeserialize") Load
 
   .result(data-bind="with: result")
     %div#output(data-bind="foreach: files")

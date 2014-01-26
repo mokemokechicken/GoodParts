@@ -15,6 +15,9 @@ Model = (opts) ->
     onSerialize: (obj) ->
       opts.onSerialize(obj) if opts.onSerialize
 
+    onDeserialize: (obj) ->
+      opts.onDeserialize(obj) if opts.onDeserialize
+
   return self
 
 
@@ -45,10 +48,19 @@ GoodParts.ViewController.GenerateViewController = (opts) ->
     SyntaxHighlighter.highlight()
 
   self.serialize = ->
-    console.log(generator.serialize())
+    s = JSON.stringify(generator.serialize())
+    console.log(s)
+    localStorage.ser = s
+
+  self.deserialize = ->
+    s = JSON.parse(localStorage.ser)
+    generator.deserialize(s)
 
   # View binding
-  model = Model(onGenerate: self.generate, onSerialize: self.serialize)
+  model = Model
+    onGenerate: self.generate
+    onSerialize: self.serialize
+    onDeserialize: self.deserialize
   ko.applyBindings(model, main_area[0])
 
   #

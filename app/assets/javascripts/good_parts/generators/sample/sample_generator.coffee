@@ -32,4 +32,9 @@ GoodParts.Generator.SampleGenerator = ->
   self.serialize = ->
     (param.serialize() for param in [params.map, params.record])
 
+  self.deserialize = (obj) ->
+    params.map.deserialize(obj[0])
+    params.record.deserialize(obj[1])
+
+
   return self

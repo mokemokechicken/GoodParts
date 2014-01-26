@@ -1,12 +1,21 @@
-Model = ->
-  result: ko.observable()
-  message: ko.observable()
-  isGeneratorFound: ko.observable(true)
-  downloadURL: (file) ->
-    "data:application/data," + encodeURIComponent(file.content)
+Model = (opts) ->
+  self =
+    result: ko.observable()
+    message: ko.observable()
+    isGeneratorFound: ko.observable(true)
+    downloadURL: (file) ->
+      "data:application/data," + encodeURIComponent(file.content)
 
-  onDownload: (file) ->
-    window.open("data:application/data;filename=#{file.name}," + encodeURIComponent(file.content))
+    onDownload: (file) ->
+      window.open("data:application/data;filename=#{file.name}," + encodeURIComponent(file.content))
+
+    onGenerate: (obj) ->
+      opts.onGenerate(obj) if opts.onGenerate
+
+    onSerialize: (obj) ->
+      opts.onSerialize(obj) if opts.onSerialize
+
+  return self
 
 
 GoodParts.ViewController.GenerateViewController = (opts) ->
@@ -15,13 +24,9 @@ GoodParts.ViewController.GenerateViewController = (opts) ->
   # input
   main_area = $("##{options.main}")
   canvas_area = $("##{options.canvas}")
-  submit_btn = $("##{options.submit}")
+  # submit_btn = $("##{options.submit}")
   prefix = options.prefix ? 'good_parts-'
   generator_name = location.hash[1..]
-
-  # View binding
-  model = Model()
-  ko.applyBindings(model, main_area[0])
 
   # Generator
   findGenerator = ->
@@ -34,10 +39,17 @@ GoodParts.ViewController.GenerateViewController = (opts) ->
 
   generator = findGenerator()
 
-  submit_btn.on "click", ->
+  self.generate = ->
     model.result
       files: generator.generate()
     SyntaxHighlighter.highlight()
+
+  self.serialize = ->
+    console.log(generator.serialize())
+
+  # View binding
+  model = Model(onGenerate: self.generate, onSerialize: self.serialize)
+  ko.applyBindings(model, main_area[0])
 
   #
   self.start = ->

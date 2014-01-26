@@ -3,6 +3,8 @@
 #  meta: {}
 #  getParams: -> null
 #  draw: -> null
+#  serialize: -> obj
+#  deserialize: (obj) ->
 
 ParamView = (template, data) ->
   self = {}

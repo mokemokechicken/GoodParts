@@ -4,7 +4,8 @@
   %div(data-bind="visible: isGeneratorFound")
     %div#canvas
     .global-control
-      %button.btn.btn-primary#submit Generate!
+      %button.btn.btn-primary(data-bind="click: onGenerate") Generate!
+      %button.btn(data-bind="click: onSerialize") Save
 
   .result(data-bind="with: result")
     %div#output(data-bind="foreach: files")
@@ -17,6 +18,5 @@
     GoodParts.ViewController.GenerateViewController
       main: 'main'
       canvas: 'canvas'
-      submit: 'submit'
       output: 'output'
     .start()

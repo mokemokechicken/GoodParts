@@ -15,6 +15,13 @@ GoodParts.ParamController.RecordParamController = (options) ->
   model = Model
     name: self.name
     columnList: options.columnList
+
+  self.serialize = ->
+    model.serialize()
+
+  self.deserialize = (obj) ->
+    model.deserialize(obj)
+
   return self
 
 
@@ -27,27 +34,36 @@ Model = (opts) ->
   self.getParams = ->
     (r.data for r in self.records())
 
+  createRecord = (data) ->
+    Record(self.columnList, data)
 
-  createRecord = ->
-    Record(self.columnList)
+  self.new_record = ->
+    self.add()
 
-  self.add = ->
-    self.records.push createRecord()
+  self.add = (data) ->
+    self.records.push createRecord(data)
 
 
   self.remove = (record) ->
     self.records.remove(record)
 
+  self.serialize = ->
+    self.getParams()
+
+  self.deserialize = (obj) ->
+    self.records([])
+    for data in obj
+      self.add(data)
 
   return self
 
-Record = (columnList) ->
+Record = (columnList, data) ->
   self = {}
-
+  data = data ? {}
   self.data = {}
   self.focus = {}
   for col in columnList
-    self.data[col] = ''
+    self.data[col] = data[col]
     self.focus[col] = ko.observable(col == columnList[0])
 
   return self

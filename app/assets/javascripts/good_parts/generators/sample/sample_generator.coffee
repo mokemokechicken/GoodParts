@@ -29,4 +29,7 @@ GoodParts.Generator.SampleGenerator = ->
       GoodParts.File('file2.m', code2, language: 'objc')
     ]
 
+  self.serialize = ->
+    (param.serialize() for param in [params.map, params.record])
+
   return self

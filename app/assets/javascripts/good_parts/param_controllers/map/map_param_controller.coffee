@@ -15,6 +15,13 @@ GoodParts.ParamController.MapParamController = (options) ->
   model = MapParamModel
     name: self.name
     paramList: options.paramList
+
+  self.serialize = ->
+    model.serialize()
+
+  self.deserialize = (obj) ->
+    model.deserialize(obj)
+
   return self
 
 
@@ -30,5 +37,12 @@ MapParamModel = (opts) ->
     ret
 
   self.params = ko.observableArray paramList
+
+  self.serialize = ->
+    paramList
+
+  self.deserialize = (obj) ->
+    self.params(obj)
+
   return self
 

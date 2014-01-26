@@ -1,6 +1,6 @@
-MapParamContoller = (map) ->
+GoodParts.ParamController.MapParamController = (options) ->
   self = {}
-  self.name = 'MapParam'
+  self.name = options.name ? 'MapParam'
   self.meta = {}
 
   self.getParams = ->
@@ -8,36 +8,27 @@ MapParamContoller = (map) ->
 
   self.draw = (opts) ->
     canvas = opts.canvas
-    view = MapParamView(opts)
+    view = GoodParts.ParamView('map/view.html', self)
     canvas.append(view.content)
     ko.applyBindings(model, canvas[0])
 
-  model = MapParamModel map: map
+  model = MapParamModel
+    name: self.name
+    paramList: options.paramList
   return self
 
 
 MapParamModel = (opts) ->
   self = {}
-  map = opts.map
+  self.name = opts.name
+  paramList = opts.paramList
 
-  self.getParams = -> map
+  self.getParams = ->
+    ret = {}
+    for param in paramList
+      ret[param.key] = param.value
+    ret
 
-  paramList = ({key: k, value: v} for k, v of map)
   self.params = ko.observableArray paramList
   return self
 
-
-MapParamView = (opts) ->
-  self = {}
-  self.content = $(html)
-  return self
-
-
-html = """
-<ul data-bind="foreach: params">
-  <li><span data-bind="text: key"> </span>: <span data-bind="text: value"> /span></li>
-</ul>
-"""
-
-
-GoodParts.ParamControllerCollection.push MapParamContoller

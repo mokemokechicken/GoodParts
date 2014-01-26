@@ -1,10 +1,15 @@
-class ParamContoller
-  name: 'Param'
-  meta: {}
+#class ParamContoller
+#  name: 'Param'
+#  meta: {}
+#  getParams: -> null
+#  draw: -> null
 
-  getParams: -> null
+ParamView = (template, data) ->
+  self = {}
+  html = GoodParts.ParamViewRenderer.render(template, data)
+  self.content = $(html)
+  return self
 
-  draw: -> null
-
-GoodParts.ParamControllerCollection = GoodParts.ParamControllerCollection ? []
-GoodParts.ParamController = ParamContoller
+GoodParts.ParamController = GoodParts.ParamController ? {}
+GoodParts.ParamViewRenderer = ECT(root: '/assets/good_parts/param_controllers')
+GoodParts.ParamView = ParamView

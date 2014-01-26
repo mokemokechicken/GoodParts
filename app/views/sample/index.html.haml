@@ -1,4 +1,20 @@
 %h1 Sample#index
-%p Find me in app/views/sample/index.html.haml
 
-%div#canvas hogehogehoge
+%div#main
+  %div#canvas
+  %div
+    %button#submit OK
+
+  %div(data-bind="with: result")
+    %div#output(data-bind="foreach: files")
+      %div(data-bind="text: name")
+      %textarea(data-bind="text: content")
+
+:coffee
+  $ ->
+    GoodParts.ViewController.GenerateViewController
+      main: 'main'
+      canvas: 'canvas'
+      submit: 'submit'
+      output: 'output'
+    .start()

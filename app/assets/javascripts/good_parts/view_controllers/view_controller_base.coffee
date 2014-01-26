@@ -1,0 +1,1 @@
+GoodParts.ViewController = GoodParts.ViewController ? {}

@@ -4,5 +4,5 @@ class Generator
   name: 'Generator'
   meta: {}
 
-GoodParts.GeneratorCollection = GoodParts.GeneratorCollection ? []
-GoodParts.Generator = Generator
+GoodParts.Generator = GoodParts.Generator ? {}
+GoodParts.CodeRenderer = ECT(root: '/assets/good_parts/generators')

@@ -12,6 +12,7 @@ GoodParts.Generator.SampleGenerator = ->
   self.requiredParams = -> [mapParam]
 
   self.generate = ->
-    [GoodParts.File('file1', JSON.stringify(mapParam.getParams()))]
+    code = GoodParts.CodeRenderer.render('sample/sample.rb.erb', mapParam.getParams())
+    [GoodParts.File('file1', code, language: 'ruby')]
 
   return self

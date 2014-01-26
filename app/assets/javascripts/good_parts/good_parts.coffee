@@ -8,4 +8,5 @@ GoodParts.File = (name, content, meta) ->
     name: name
     content: content
     meta: meta ? {}
+    highlight_class: -> "brush: #{meta.language}"
   return self

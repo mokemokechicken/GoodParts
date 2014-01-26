@@ -54,3 +54,5 @@ gem 'erb2haml'
 
 gem 'rspec-rails'
 gem 'puma'
+
+gem 'syntax-highlighter-rails'

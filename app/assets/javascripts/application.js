@@ -16,6 +16,8 @@
 //= require vendor/knockout-3.0.0
 //= require vendor/coffee-script
 //= require vendor/ect.min
+//= require syntax-highlighter-rails/shCore
+//= require syntax-highlighter-rails/shBrushRuby
 //= require turbolinks
 //= require good_parts/good_parts
 //= require good_parts/param_controllers/param_controller_base

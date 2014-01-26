@@ -5,7 +5,6 @@ GoodParts.ViewController.GenerateViewController = (opts) ->
   main_area = $("##{options.main}")
   canvas_area = $("##{options.canvas}")
   submit_btn = $("##{options.submit}")
-  output_area = $("##{options.output}")
   prefix = options.prefix ? 'good_parts-'
 
   # Generator
@@ -26,5 +25,6 @@ GoodParts.ViewController.GenerateViewController = (opts) ->
     console.log(files)
     self.result
       files: files
+    SyntaxHighlighter.highlight()
 
   return self

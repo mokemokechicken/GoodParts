@@ -7,14 +7,16 @@
 
   %div(data-bind="with: result")
     %div#output(data-bind="foreach: files")
-      %div(data-bind="text: name")
-      %textarea(data-bind="text: content")
+      .result-filename(data-bind="text: name")
+      %pre(data-bind='text: content, attr: {class: highlight_class()}')
 
 :coffee
   $ ->
+
     GoodParts.ViewController.GenerateViewController
       main: 'main'
       canvas: 'canvas'
       submit: 'submit'
       output: 'output'
     .start()
+    SyntaxHighlighter.all()

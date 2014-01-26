@@ -7,8 +7,8 @@ GoodParts.Generator.SampleGenerator = ->
     params.map = GoodParts.ParamController.MapParamController
       name: 'Key-Value'
       paramList: [
-        {key: 'name', value: '', placeholder: 'ClassName'}
-        {key: 'age' , value: '', placeholder: 'YourAge'}
+        {key: 'ClassName', value: '', placeholder: 'ClassName'}
+        {key: 'SuperClass' , value: '', placeholder: 'SuperClass'}
       ]
     params.record = GoodParts.ParamController.RecordParamController
       name: 'Record'
@@ -19,7 +19,10 @@ GoodParts.Generator.SampleGenerator = ->
     [params.map, params.record]
 
   self.generate = ->
-    code1 = GoodParts.CodeRenderer.render('sample/sample_rb.ect', params.map.getParams())
+    code1 = GoodParts.CodeRenderer.render 'sample/sample_rb.ect',
+      map: params.map.getParams()
+      records: params.record.getParams()
+
     code2 = GoodParts.CodeRenderer.render('sample/sample_m.ect', params.map.getParams())
     [
       GoodParts.File('file1.rb', code1, language: 'ruby')

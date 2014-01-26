@@ -25,7 +25,8 @@ Model = (opts) ->
   self.records = ko.observableArray([])
 
   self.getParams = ->
-    self.records()
+    (r.data for r in self.records())
+
 
   createRecord = ->
     Record(self.columnList)

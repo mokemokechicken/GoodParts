@@ -1,5 +1,12 @@
-class MyClass
-    name = "<%- @name %>"
-    age = <%- @age %>
+class <%= @map.ClassName %>
+<% if @map.SuperClass : %>
+ < <%- @map.SuperClass %>
+<% end %>
 
+<% for attr in @records : %>
+    <%- attr.name %>  <%- attr.type %>, :length => <%- if attr.length.length == 0 then 'nil' else attr.length %>
+
+<% end %>
 end
+
+

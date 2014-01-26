@@ -39,7 +39,7 @@ MapParamModel = (opts) ->
   self.params = ko.observableArray paramList
 
   self.serialize = ->
-    paramList
+    self.params()
 
   self.deserialize = (obj) ->
     self.params(obj)

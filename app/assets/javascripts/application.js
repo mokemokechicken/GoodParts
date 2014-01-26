@@ -17,7 +17,15 @@
 //= require vendor/coffee-script
 //= require vendor/ect.min
 //= require syntax-highlighter-rails/shCore
+//= require syntax-highlighter-rails/shBrushCpp
+//= require syntax-highlighter-rails/shBrushCss
+//= require syntax-highlighter-rails/shBrushJScript
+//= require syntax-highlighter-rails/shBrushJava
+//= require syntax-highlighter-rails/shBrushPhp
+//= require syntax-highlighter-rails/shBrushPython
 //= require syntax-highlighter-rails/shBrushRuby
+//= require syntax-highlighter-rails/shBrushSql
+//= require vendor/shBrushObjectiveC
 //= require turbolinks
 //= require good_parts/good_parts
 //= require good_parts/param_controllers/param_controller_base

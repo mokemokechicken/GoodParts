@@ -8,7 +8,7 @@
   %div(data-bind="with: result")
     %div#output(data-bind="foreach: files")
       .result-filename(data-bind="text: name")
-      %pre(data-bind='text: content, attr: {class: highlight_class()}')
+      %pre(data-bind='text: content, attr: {class: highlight_class()}' contenteditable="true" )
 
 :coffee
   $ ->

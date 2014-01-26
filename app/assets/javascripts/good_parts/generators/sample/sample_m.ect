@@ -1,0 +1,67 @@
+//
+//  PTWAAppDelegate.m
+//  pushtowakeup
+//
+//  Created by 森下 健 on 2013/11/09.
+//  Copyright (c) 2013年 森下 健. All rights reserved.
+//
+
+#import "PTWAAppDelegate.h"
+#import "PTWAAudioPlayer.h"
+#import "PTWADeviceTokenManager.h"
+
+@implementation PTWAAppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(
+        UIRemoteNotificationTypeBadge |
+        UIRemoteNotificationTypeAlert |
+        UIRemoteNotificationTypeSound |
+        UIRemoteNotificationTypeNewsstandContentAvailability
+    )];
+    DLog(@"%s: %@", __FUNCTION__, launchOptions);
+    return YES;
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    NSString *devToken = [deviceToken base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    DLog(@"devToken: %@", devToken);
+    [[[PTWADeviceTokenManager alloc] init] registDeviceToken:devToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    DLog(@"ERROR in registration: %@", error);
+}
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)event
+{
+    DLog(@"receive remote control events: %@", event);
+    if (event.type == UIEventTypeRemoteControl)
+    if (event.subtype == UIEventSubtypeRemoteControlStop || event.subtype == UIEventSubtypeRemoteControlPause) {
+        [[PTWAAudioPlayer sharedInstance] stop];
+    }
+}
+
+- (void)application:application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    DLog(@"ReceiveNotification: %@", userInfo);
+    //    [[NSNotificationCenter defaultCenter] postNotificationName:@"REMOTE_NOTIFICATION" object:self userInfo:userInfo];
+    PTWAAudioPlayer *player = [PTWAAudioPlayer sharedInstance];
+    if (![player isPlaying]) {
+        [player play];
+    }
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    DLog(@"ReceiveNotification fetchCompletionHandler: %@", userInfo);
+    PTWAAudioPlayer *player = [PTWAAudioPlayer sharedInstance];
+    if (![player isPlaying]) {
+        [player play];
+    }
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+@end

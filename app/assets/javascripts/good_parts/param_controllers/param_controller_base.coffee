@@ -13,5 +13,6 @@ ParamView = (template, data) ->
   return self
 
 GoodParts.ParamController = GoodParts.ParamController ? {}
-GoodParts.ParamViewRenderer = ECT(root: '/assets/good_parts/param_controllers')
+#GoodParts.ParamViewRenderer = ECT(root: '/assets/good_parts/param_controllers')
+GoodParts.ParamViewRenderer = ECT(root: '/template/good_parts/param_controllers')
 GoodParts.ParamView = ParamView

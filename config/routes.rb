@@ -1,5 +1,7 @@
 GoodParts2::Application.routes.draw do
-  get "sample/index"
+  get "template/get"
+  get 'template/:name' => 'template#get', :name => /.+/
+  # get "sample/index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

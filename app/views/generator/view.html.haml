@@ -1,5 +1,5 @@
 %div#main
-  %div(data-bind="text: message")
+  %div.error(data-bind="text: message, visible: message")
 
   %div(data-bind="visible: isGeneratorFound")
     %div#canvas

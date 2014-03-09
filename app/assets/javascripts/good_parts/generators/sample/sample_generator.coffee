@@ -22,8 +22,8 @@ GoodParts.Generator.SampleGenerator = ->
     code1 = GoodParts.CodeRenderer.render 'sample/sample_rb.ect',
       map: params.map.getParams()
       records: params.record.getParams()
-
     code2 = GoodParts.CodeRenderer.render('sample/sample_m.ect', params.map.getParams())
+
     [
       GoodParts.File('file1.rb', code1, language: 'ruby')
       GoodParts.File('file2.m', code2, language: 'objc')

@@ -42,10 +42,20 @@ GoodParts.ViewController.GenerateViewController = (opts) ->
 
   generator = findGenerator()
 
-  self.generate = ->
+  doGenerate = (files) ->
     model.result
-      files: generator.generate()
+      files: files
     SyntaxHighlighter.highlight()
+
+  self.generate = ->
+    files = generator.generate()
+    if files.done  # assume files is Promise Object
+      files.done (fs) ->
+        model.message("")
+        doGenerate(fs)
+      .fail (message) -> model.message(message)
+    else
+      doGenerate(files)
 
   self.serialize = ->
     s = JSON.stringify(generator.serialize())

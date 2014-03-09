@@ -32,7 +32,7 @@ MapParamModel = (opts) ->
 
   self.getParams = ->
     ret = {}
-    for param in paramList
+    for param in self.params()
       ret[param.key] = param.value
     ret
 

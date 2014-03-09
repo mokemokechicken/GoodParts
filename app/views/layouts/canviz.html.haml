@@ -1,0 +1,12 @@
+!!!
+%html
+  %head
+    %title Canviz
+    = javascript_include_tag 'canviz/canviz.js'
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body
+    .row-fluid
+      .span1
+      .span11
+        = yield

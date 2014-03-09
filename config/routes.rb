@@ -9,6 +9,8 @@ GoodParts2::Application.routes.draw do
   root 'generator#index'
   get 'generator' => 'generator#view'
 
+  get 'sample' => 'sample#index'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

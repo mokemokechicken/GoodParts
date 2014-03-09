@@ -20,7 +20,7 @@ GoodParts.Generator.StateMachineGenerator = ->
         ]
       language: GoodParts.ParamController.SelectParamController
         name: 'Language'
-        values: ['Java', 'ObjC', 'Python', 'Ruby', 'JavaScript']
+        values: ['Java', 'ObjC', 'Python', 'Ruby', 'JavaScript', 'Graph']
         selected: ['Java']
       scm: GoodParts.ParamController.TextParamController
         name: 'SCM'
@@ -41,6 +41,10 @@ GoodParts.Generator.StateMachineGenerator = ->
       dfd.resolve(ret)
     .fail (res) ->
       dfd.reject(res.responseText)
+    $.post("#{SMC_SERVICE_URL}?lang=graph", scm).done (res) ->
+      console.log(res.impl)
+      viz = new Canviz('graph_canvas')
+      viz.parse(res.impl)
     dfd.promise()
 
   self.requiredParams = -> paramList()
@@ -62,4 +66,5 @@ FileExtNameMap = (lang) ->
     when "python" then {impl: "py"}
     when "ruby" then {impl: "rb"}
     when "javascript" then {impl: "js"}
+    when 'graph' then {impl: "dot"}
     else {impl: "txt"}

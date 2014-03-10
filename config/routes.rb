@@ -9,6 +9,11 @@ GoodParts2::Application.routes.draw do
   root 'generator#index'
   get 'generator' => 'generator#view'
 
+  get 'dot/:key/:format' => 'graphviz#dot'
+
+  post 'anydata' => 'anydata#add'
+  get  'anydata/:key' => 'anydata#get'
+
   get 'sample' => 'sample#index'
 
   # Example of regular route:

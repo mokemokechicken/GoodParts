@@ -56,3 +56,5 @@ gem 'rspec-rails'
 gem 'puma'
 
 gem 'syntax-highlighter-rails'
+
+gem 'ruby-graphviz'

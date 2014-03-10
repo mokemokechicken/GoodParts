@@ -20,7 +20,7 @@ GoodParts.Generator.StateMachineGenerator = ->
         ]
       language: GoodParts.ParamController.SelectParamController
         name: 'Language'
-        values: ['Java', 'ObjC', 'Python', 'Ruby', 'JavaScript', 'Graph']
+        values: ['Java', 'ObjC', 'Python', 'Ruby', 'JavaScript']
         selected: ['Java']
       scm: GoodParts.ParamController.TextParamController
         name: 'SCM'
@@ -32,19 +32,28 @@ GoodParts.Generator.StateMachineGenerator = ->
     scm = params.scm.getParams()
 
     dfd = $.Deferred()
-    $.post("#{SMC_SERVICE_URL}?lang=#{lang}", scm).done (res) ->
-      console.log res
+    pg_promise = $.post("#{SMC_SERVICE_URL}?lang=#{lang}", scm)
+    pg_promise.fail (res) -> dfd.reject(res.responseText)
+    img_promise = $.post("#{SMC_SERVICE_URL}?lang=graph", scm).then (res) ->
+      $.ajax "/anydata",
+        type: 'POST'
+        data: res.impl
+        contentType: 'application/binary'
+
+    $.when(pg_promise, img_promise).done (r1, r2) ->
+      pg_response = r1[0]
+      img_response = r2[0]
+      imgUrl = "#{location.origin}/dot/#{img_response.key}/png"
       ret = []
-      if res.header
-        ret.push GoodParts.File("#{attrs.name}.#{FileExtNameMap(lang).header}", res.header, language: lang)
-      ret.push GoodParts.File("#{attrs.name}.#{FileExtNameMap(lang).impl}", res.impl, language: lang)
+      ret.push GoodParts.File("#{attrs.name}.png", "", {language: 'img', type: 'img', src: imgUrl})
+      if pg_response.header
+        ret.push GoodParts.File("#{attrs.name}.#{FileExtNameMap(lang).header}", pg_response.header, language: lang)
+      implLines = pg_response.impl.split("\n")
+      implLines[0] += " Image: #{imgUrl}"
+      implText = implLines.join("\n")
+      ret.push GoodParts.File("#{attrs.name}.#{FileExtNameMap(lang).impl}", implText, language: lang)
       dfd.resolve(ret)
-    .fail (res) ->
-      dfd.reject(res.responseText)
-    $.post("#{SMC_SERVICE_URL}?lang=graph", scm).done (res) ->
-      console.log(res.impl)
-      viz = new Canviz('graph_canvas')
-      viz.parse(res.impl)
+
     dfd.promise()
 
   self.requiredParams = -> paramList()

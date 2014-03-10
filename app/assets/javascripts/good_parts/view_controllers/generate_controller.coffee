@@ -29,7 +29,7 @@ GoodParts.ViewController.GenerateViewController = (opts) ->
   canvas_area = $("##{options.canvas}")
   # submit_btn = $("##{options.submit}")
   prefix = options.prefix ? 'good_parts-'
-  generator_name = location.hash[1..]
+  [generator_name, serializeKey] = location.hash[1..].split("--")
 
   # Generator
   findGenerator = ->
@@ -48,23 +48,28 @@ GoodParts.ViewController.GenerateViewController = (opts) ->
     SyntaxHighlighter.highlight()
 
   self.generate = ->
-    files = generator.generate()
-    if files.done  # assume files is Promise Object
-      files.done (fs) ->
-        model.message("")
-        doGenerate(fs)
-      .fail (message) -> model.message(message)
-    else
-      doGenerate(files)
+    self.serialize().done (res) ->
+      serializeKey = res.key
+      location.hash = "##{generator_name}--#{serializeKey}"
+      files = generator.generate(serializeKey)  # anydata's key
+      if files.done  # assume files is Promise Object
+        files.done (fs) ->
+          model.message("")
+          doGenerate(fs)
+        .fail (message) -> model.message(message)
+      else
+        doGenerate(files)
 
   self.serialize = ->
     s = JSON.stringify(generator.serialize())
-    console.log(s)
-    localStorage.ser = s
+    $.ajax "/anydata",
+      type: 'POST'
+      data: s
+      contentType: 'application/binary'
 
-  self.deserialize = ->
-    s = JSON.parse(localStorage.ser)
-    generator.deserialize(s)
+  self.deserialize = (key) ->
+    $.get("/anydata/#{key}").done (data) ->
+      generator.deserialize(JSON.parse(data))
 
   # View binding
   model = Model
@@ -81,6 +86,8 @@ GoodParts.ViewController.GenerateViewController = (opts) ->
         canvas_area.append($("<div id='#{div_id}'>"))
         pc.draw
           canvas: $("##{div_id}")
+      if serializeKey
+        self.deserialize(serializeKey)
 
   return self
 

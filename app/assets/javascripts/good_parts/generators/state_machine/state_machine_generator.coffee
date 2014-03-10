@@ -26,7 +26,7 @@ GoodParts.Generator.StateMachineGenerator = ->
         name: 'SCM'
         rows: 20
 
-  self.generate = ->
+  self.generate = (serializeKey) ->
     attrs = params.attrs.getParams()
     lang = params.language.getParams()[0]?.toLowerCase()
     scm = params.scm.getParams()
@@ -49,7 +49,7 @@ GoodParts.Generator.StateMachineGenerator = ->
       if pg_response.header
         ret.push GoodParts.File("#{attrs.name}.#{FileExtNameMap(lang).header}", pg_response.header, language: lang)
       implLines = pg_response.impl.split("\n")
-      implLines[0] += " Image: #{imgUrl}"
+      implLines[0] += " Generator: #{location.href}"
       implText = implLines.join("\n")
       ret.push GoodParts.File("#{attrs.name}.#{FileExtNameMap(lang).impl}", implText, language: lang)
       dfd.resolve(ret)

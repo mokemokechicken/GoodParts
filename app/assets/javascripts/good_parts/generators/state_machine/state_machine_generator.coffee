@@ -36,7 +36,7 @@ GoodParts.Generator.StateMachineGenerator = ->
     scm = params.scm.getParams()
 
     dfd = $.Deferred()
-    pg_promise = $.post("#{SMC_SERVICE_URL}?lang=#{lang}", scm)
+    pg_promise = $.post("#{SMC_SERVICE_URL}?lang=#{lang}&name=#{attrs.name}", scm)
     pg_promise.fail (res) -> dfd.reject(res.responseText)
     img_promise = $.post("#{SMC_SERVICE_URL}?lang=graph", scm).then (res) ->
       $.ajax "/anydata",

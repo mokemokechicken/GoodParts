@@ -1,4 +1,5 @@
 GoodParts2::Application.routes.draw do
+  get "download/smc"
   get "template/get"
   get 'template/:name' => 'template#get', :name => /.+/
   # get "sample/index"
@@ -13,6 +14,8 @@ GoodParts2::Application.routes.draw do
 
   post 'anydata' => 'anydata#add'
   get  'anydata/:key' => 'anydata#get'
+
+  get 'download/smc' => 'download#smc'
 
   get 'sample' => 'sample#index'
 

@@ -4,7 +4,11 @@ SMC_SERVICE_URL = 'http://smcservice.herokuapp.com/smc'
 GoodParts.Generator.StateMachineGenerator = ->
   self = {}
   self.name = 'StateMachine'
-  self.meta = {}
+  self.meta =
+    description: """
+      SMC という StateMachineCompilerを使ったGeneratorです。書き方については http://smc.sourceforge.net/SmcManual.htm を参考にしてください。
+      生成されたコードを実行するには、共通のlibraryが必要なので、Navigation BarのDownloadのページをみてください。
+"""
   params = null
 
   paramList = ->

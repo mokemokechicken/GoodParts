@@ -3,6 +3,7 @@ Model = (opts) ->
     result: ko.observable()
     message: ko.observable()
     isGeneratorFound: ko.observable(true)
+    description: opts.description
     downloadURL: (file) ->
       "data:application/data," + encodeURIComponent(file.content)
 
@@ -76,6 +77,7 @@ GoodParts.ViewController.GenerateViewController = (opts) ->
     onGenerate: self.generate
     onSerialize: self.serialize
     onDeserialize: self.deserialize
+    description: generator.meta.description
   ko.applyBindings(model, main_area[0])
 
   #

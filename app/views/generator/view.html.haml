@@ -16,6 +16,8 @@
         %pre(data-bind='text: content, attr: {class: highlight_class(), id: name}' contenteditable="true" )
       %div(data-bind="if: is_img()")
         %img.graph-img(data-bind="attr: {src: meta.src}")
+      %div(data-bind="if: is_html()")
+        %div(data-bind="html: content")
 
 :coffee
   $ ->

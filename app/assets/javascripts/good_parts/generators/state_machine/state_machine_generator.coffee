@@ -8,6 +8,9 @@ GoodParts.Generator.StateMachineGenerator = ->
     description: """
       SMC という StateMachineCompilerを使ったGeneratorです。書き方については http://smc.sourceforge.net/SmcManual.htm を参考にしてください。
       生成されたコードを実行するには、共通のlibraryが必要なので、Navigation BarのDownloadのページをみてください。
+
+      SMC サンプル: http://ts-app1.d.yumemi.jp:10002/generator#StateMachineGenerator--b11a58f5a0ec9b7a7f48eab37e5a0dd874009b13
+      SMC 記事集: https://yumemi.qiita.com/search?utf8=%E2%9C%93&sort=&q=SMC
 """
   params = null
 
@@ -38,18 +41,21 @@ GoodParts.Generator.StateMachineGenerator = ->
     dfd = $.Deferred()
     pg_promise = $.post("#{SMC_SERVICE_URL}?lang=#{lang}&name=#{attrs.name}", scm)
     pg_promise.fail (res) -> dfd.reject(res.responseText)
+    html_promise = $.post("#{SMC_SERVICE_URL}?lang=table", scm)
     img_promise = $.post("#{SMC_SERVICE_URL}?lang=graph", scm).then (res) ->
       $.ajax "/anydata",
         type: 'POST'
         data: res.impl
         contentType: 'application/binary'
 
-    $.when(pg_promise, img_promise).done (r1, r2) ->
+    $.when(pg_promise, img_promise, html_promise).done (r1, r2, r3) ->
       pg_response = r1[0]
       img_response = r2[0]
+      html_response = r3[0]
       imgUrl = "#{location.origin}/dot/#{img_response.key}/png"
       ret = []
       ret.push GoodParts.File("#{attrs.name}.png", "", {language: 'img', type: 'img', src: imgUrl})
+      ret.push GoodParts.File("#{attrs.name}.html", html_response.impl, {language: 'html', type: 'html'})
       if pg_response.header
         ret.push GoodParts.File("#{attrs.name}.#{FileExtNameMap(lang).header}", pg_response.header, language: lang)
       implLines = pg_response.impl.split("\n")

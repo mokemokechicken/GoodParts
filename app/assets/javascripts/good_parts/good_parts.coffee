@@ -13,4 +13,5 @@ GoodParts.File = (name, content, meta) ->
 
   self.is_src = -> self.meta.type == "src"
   self.is_img = -> self.meta.type == "img"
+  self.is_html = -> self.meta.type == "html"
   return self

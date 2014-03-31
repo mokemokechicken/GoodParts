@@ -9,7 +9,7 @@ GoodParts.Generator.StateMachineGenerator = ->
       SMC という StateMachineCompilerを使ったGeneratorです。書き方については http://smc.sourceforge.net/SmcManual.htm を参考にしてください。
       生成されたコードを実行するには、共通のlibraryが必要なので、Navigation BarのDownloadのページをみてください。
 
-      SMC サンプル: http://ts-app1.d.yumemi.jp:10002/generator#StateMachineGenerator--b11a58f5a0ec9b7a7f48eab37e5a0dd874009b13
+      SMC サンプル: http://goodparts.d.yumemi.jp/generator#StateMachineGenerator--5ee40c306f44385df80e09af7f6b588985ff8c71
       SMC 記事集: https://yumemi.qiita.com/search?utf8=%E2%9C%93&sort=&q=SMC
 """
   params = null

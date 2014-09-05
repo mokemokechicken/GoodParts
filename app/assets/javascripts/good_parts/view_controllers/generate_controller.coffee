@@ -43,10 +43,17 @@ GoodParts.ViewController.GenerateViewController = (opts) ->
 
   generator = findGenerator()
 
+  isSupportHighLighter = (files) ->
+    for f in files
+      if f.name?.substr(-6) == ".swift"
+        return false
+    return true
+
   doGenerate = (files) ->
     model.result
       files: files
-    SyntaxHighlighter.highlight()
+    if isSupportHighLighter(files)
+      SyntaxHighlighter.highlight()
 
   self.generate = ->
     self.serialize().done (res) ->

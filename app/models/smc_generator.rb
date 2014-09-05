@@ -1,3 +1,5 @@
+require 'open3'
+
 class SMCGenerator
   JAVASCRIPT = :javascript
   SWIFT = :swift

@@ -1,0 +1,3 @@
+[submodule "vendor/state-machine-generator"]
+	path = vendor/state-machine-generator
+	url = https://github.com/mokemokechicken/state-machine-generator.git

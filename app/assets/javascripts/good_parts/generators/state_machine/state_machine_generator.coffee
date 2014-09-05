@@ -27,11 +27,18 @@ GoodParts.Generator.StateMachineGenerator = ->
         ]
       language: GoodParts.ParamController.SelectParamController
         name: 'Language'
-        values: ['Java', 'ObjC', 'Python', 'Ruby', 'JavaScript']
+        values: ['Java', 'ObjC', 'Python', 'Ruby', 'JavaScript', 'JavaScript(Y)', 'swift']
         selected: ['Java']
       scm: GoodParts.ParamController.TextParamController
         name: 'SCM'
         rows: 20
+
+  server_url = (lang) ->
+    switch lang
+      when 'javascript(y)', 'swift'
+        '/generator/generate'
+      else
+        SMC_SERVICE_URL
 
   self.generate = (serializeKey) ->
     attrs = params.attrs.getParams()
@@ -39,7 +46,13 @@ GoodParts.Generator.StateMachineGenerator = ->
     scm = params.scm.getParams()
 
     dfd = $.Deferred()
-    pg_promise = $.post("#{SMC_SERVICE_URL}?lang=#{lang}&name=#{attrs.name}", scm)
+
+    url = server_url lang
+    pg_promise = $.ajax "#{url}?lang=#{lang}&name=#{attrs.name}",
+      type: 'POST'
+      data: scm
+      contentType: 'text/plain; character-set=utf8'
+
     pg_promise.fail (res) -> dfd.reject(res.responseText)
     html_promise = $.post("#{SMC_SERVICE_URL}?lang=table", scm)
     img_promise = $.post("#{SMC_SERVICE_URL}?lang=graph", scm).then (res) ->
@@ -84,6 +97,7 @@ FileExtNameMap = (lang) ->
     when "objc" then {header: "h", impl: "m"}
     when "python" then {impl: "py"}
     when "ruby" then {impl: "rb"}
-    when "javascript" then {impl: "js"}
+    when "javascript", "javascript(y)" then {impl: "js"}
     when 'graph' then {impl: "dot"}
+    when 'swift' then {impl: 'swift'}
     else {impl: "txt"}

@@ -9,8 +9,8 @@ GoodParts2::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'generator#index'
   get 'generator' => 'generator#view'
+  get 'generator/config' => 'generator#configure'
   post 'generator/generate' => 'generator#generate'
-
 
   get 'dot/:key/:format' => 'graphviz#dot'
 

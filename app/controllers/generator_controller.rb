@@ -5,6 +5,12 @@ class GeneratorController < ApplicationController
   def view
   end
 
+  def configure
+    config = GoodParts2::Application.config.generator
+    config[:smc_service_url].gsub!(/HTTP_HOST/, request.headers[:HTTP_HOST].to_s.split(':')[0])  # orz
+    render :json => config
+  end
+
   # generator/generate
   def generate
     Rails.logger.debug params.inspect

@@ -1,6 +1,3 @@
-SMC_SERVICE_URL = 'http://smcservice.herokuapp.com/smc'
-# SMC_SERVICE_URL = 'http://localhost:9000/smc'
-
 GoodParts.Generator.StateMachineGenerator = ->
   self = {}
   self.name = 'StateMachine'
@@ -13,6 +10,7 @@ GoodParts.Generator.StateMachineGenerator = ->
       SMC 記事集: https://yumemi.qiita.com/search?utf8=%E2%9C%93&sort=&q=SMC
 """
   params = null
+  config = {}
 
   paramList = ->
     initParams() if !params
@@ -33,12 +31,17 @@ GoodParts.Generator.StateMachineGenerator = ->
         name: 'SCM'
         rows: 20
 
+  configure = ->
+    $.get("/generator/config").done (cfg) ->
+      config.smc_service_url = cfg.smc_service_url
+  configure()
+
   server_url = (lang) ->
     switch lang
       when 'javascript(y)', 'swift'
         '/generator/generate'
       else
-        SMC_SERVICE_URL
+        config.smc_service_url
 
   self.generate = (serializeKey) ->
     attrs = params.attrs.getParams()
@@ -54,8 +57,8 @@ GoodParts.Generator.StateMachineGenerator = ->
       contentType: 'text/plain; character-set=utf8'
 
     pg_promise.fail (res) -> dfd.reject(res.responseText)
-    html_promise = $.post("#{SMC_SERVICE_URL}?lang=table", scm)
-    img_promise = $.post("#{SMC_SERVICE_URL}?lang=graph", scm).then (res) ->
+    html_promise = $.post("#{config.smc_service_url}?lang=table", scm)
+    img_promise = $.post("#{config.smc_service_url}?lang=graph", scm).then (res) ->
       $.ajax "/anydata",
         type: 'POST'
         data: res.impl

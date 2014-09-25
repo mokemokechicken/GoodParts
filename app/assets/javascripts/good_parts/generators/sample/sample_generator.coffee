@@ -1,3 +1,4 @@
+///
 GoodParts.Generator.SampleGenerator = ->
   self = {}
   self.name = 'sample'
@@ -38,3 +39,4 @@ GoodParts.Generator.SampleGenerator = ->
 
 
   return self
+///

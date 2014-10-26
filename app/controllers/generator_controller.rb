@@ -1,4 +1,6 @@
 class GeneratorController < ApplicationController
+  protect_from_forgery except: :generate
+
   def index
   end
 
